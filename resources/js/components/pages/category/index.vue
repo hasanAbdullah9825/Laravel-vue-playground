@@ -28,7 +28,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr v-for="category in categories" :key="category.id">
+    <tr v-for="category in getallCategory" :key="category.id">
       <th scope="row">{{ category.id}}</th>
       <td>{{ category.name }}</td>
       <td>{{category.slug }}</td>
@@ -65,7 +65,14 @@ axios.get('/api/categories').then(response=>{
   }
     },
         mounted() {
-            this.getAllCategories();
+            //this.getAllCategories();
+
+            this.$store.dispatch("fetchAllCategory");
+        },
+        computed:{
+          getallCategory(){
+            return this.$store.getters.AllCategory;
+           }
         }
     }
 </script>

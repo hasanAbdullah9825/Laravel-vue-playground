@@ -4,8 +4,10 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 import Vue from 'vue';
+import Vuex from 'vuex';
 import routes from './router/index.js';
 import Toasted from 'vue-toasted';
+import storeData from "./store/index";
 
 require('./bootstrap');
 
@@ -31,6 +33,10 @@ Vue.component('app-header', require('./components/Header.vue').default);
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+Vue.use(Vuex);
+const store = new Vuex.Store(
+  storeData
+)
 Vue.use(Toasted,{
     position: 'top-right',
     duration: 3000 // set the duration of the notification
@@ -38,4 +44,5 @@ Vue.use(Toasted,{
 const app = new Vue({
     el: '#app',
     router: routes,
+    store
 });
