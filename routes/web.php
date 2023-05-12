@@ -13,10 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/{any?}', function () {
-    return view('app');
-});
 
+// Route::get('/{anypath}', function () {
+//     return view('app');
+// })->where('anypath', '.*');
+
+Route::get('/{anypath}', [App\Http\Controllers\WelcomeController::class, 'index'])->where('anypath', '.*');
 Auth::routes();
 
  Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
