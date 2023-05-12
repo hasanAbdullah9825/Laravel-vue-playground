@@ -32,7 +32,7 @@
       <th scope="row">{{ category.id}}</th>
       <td>{{ category.name }}</td>
       <td>{{category.slug }}</td>
-      <td><a href="">Edit</a> <a href="">Delete</a></td>
+      <td><router-link :to="{name:'edit-category',params:{id:category.id}}">Edit</router-link> <a href="">Delete</a></td>
     </tr>
     
   </tbody>
@@ -57,15 +57,10 @@
     },
 
     methods:{
-  getAllCategories(){
-axios.get('/api/categories').then(response=>{
 
-  this.categories= response.data;
-})
-  }
     },
         mounted() {
-            //this.getAllCategories();
+
 
             this.$store.dispatch("fetchAllCategory");
         },

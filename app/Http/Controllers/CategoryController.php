@@ -15,8 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories= Category::latest()->get();
-        return response()->json($categories,200);
+        $categories = Category::latest()->get();
+        return response()->json($categories, 200);
     }
 
     /**
@@ -37,14 +37,14 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData= $request->validate([
+        $validatedData = $request->validate([
             'categoryName' => 'required'
-            
+
         ]);
 
         Category::create([
-            'name'=>$validatedData['categoryName'],
-            'slug'=>str::slug($validatedData['categoryName'])
+            'name' => $validatedData['categoryName'],
+            'slug' => str::slug($validatedData['categoryName'])
         ]);
     }
 
@@ -67,7 +67,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return response()->json($category, 200);
     }
 
     /**
@@ -79,7 +79,21 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $validatedData = $request->validate([
+            'categoryName' => "required|unique:categories,name, $category->id"
+
+        ]);
+
+        $category->update([
+
+            'name' => $validatedData['categoryName'],
+            'slug' => str::slug($validatedData['categoryName'])
+
+
+
+        ]);
+
+        return response()->json('success', 200);
     }
 
     /**
