@@ -15,9 +15,10 @@ Vue.use(VueRouter)
 
 const  routes = new VueRouter({
   mode: 'history',
+  linkExactActiveClass:'active',
     routes: [
       // dynamic segments start with a colon
-      
+    
       {
         path:'/',
         component:Home,

@@ -5858,6 +5858,7 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_7__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_8__["default"]);
 var routes = new vue_router__WEBPACK_IMPORTED_MODULE_8__["default"]({
   mode: 'history',
+  linkExactActiveClass: 'active',
   routes: [
   // dynamic segments start with a colon
 
@@ -29118,7 +29119,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "nav",
-    { staticClass: "navbar navbar-expand-lg navbar-light bg-primary" },
+    { staticClass: "navbar navbar-expand-lg navbar-dark bg-primary" },
     [
       _c(
         "div",
@@ -29128,7 +29129,7 @@ var render = function () {
             "router-link",
             {
               staticClass: "navbar-brand text-light",
-              attrs: { to: { name: "home" } },
+              attrs: { to: { name: "home" }, exact: "" },
             },
             [_vm._v("Site Logo")]
           ),
@@ -29151,8 +29152,8 @@ var render = function () {
                     _c(
                       "router-link",
                       {
-                        staticClass: "nav-link text-light",
-                        attrs: { to: { name: "home" } },
+                        staticClass: "nav-link",
+                        attrs: { to: { name: "home" }, exact: "" },
                       },
                       [_vm._v("Home ")]
                     ),
@@ -29167,8 +29168,8 @@ var render = function () {
                     _c(
                       "router-link",
                       {
-                        staticClass: "nav-link text-light",
-                        attrs: { to: { name: "category" } },
+                        staticClass: "nav-link",
+                        attrs: { to: { name: "category" }, exact: "" },
                       },
                       [_vm._v("Product Categories")]
                     ),
@@ -29183,8 +29184,8 @@ var render = function () {
                     _c(
                       "router-link",
                       {
-                        staticClass: "nav-link text-light",
-                        attrs: { to: { name: "product" } },
+                        staticClass: "nav-link",
+                        attrs: { to: { name: "product" }, exact: "" },
                       },
                       [_vm._v("Product List")]
                     ),
