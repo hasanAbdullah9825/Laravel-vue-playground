@@ -59,14 +59,14 @@ const  routes = new VueRouter({
         
         path: '/product/create',
         component: CreateProduct,
-        name: 'create-category',
+        name: 'create-product',
       }
       ,
       {
         
         path: '/product/edit/:id',
         component: EditProduct,
-        name: 'edit-category',
+        name: 'edit-product',
       }
     ]
   })

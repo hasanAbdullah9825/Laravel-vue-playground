@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -32,9 +34,33 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'productTitle' => 'required|max:190',
+            'productPrice' => 'required|integer',
+            'productDescription' => 'required',
+            // 'productImage'=>'required'
+
+
+
+        ]);
+
+        Product::create([
+
+            'title' => $validatedData['productTitle'],
+            'slug' => Str::slug($validatedData['productTitle']),
+            'price' => $validatedData['productPrice'],
+            'description' => $validatedData['productDescription']
+
+
+
+
+        ]);
+
+        return response()->json(['success',200]);
     }
 
     /**
