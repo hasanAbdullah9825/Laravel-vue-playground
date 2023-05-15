@@ -6,10 +6,10 @@
                     <div class="card-header d-flex justify-content-between">
                     
                     <div>
-                    Product Categories
+                    Product List
                     </div>
                        <div>
-                       <router-link :to="{name:'create-category'}" class=" btn btn-primary">  Create Categories </router-link>
+                       <router-link :to="{name:'create-product'}" class=" btn btn-primary">  Create product </router-link>
                   
                     </div>
                     
@@ -28,11 +28,11 @@
     </tr>
   </thead>
   <tbody>
-    <tr v-for="category in getallCategory" :key="category.id">
-      <th scope="row">{{ category.id}}</th>
-      <td>{{ category.name }}</td>
-      <td>{{category.slug }}</td>
-      <td><router-link :to="{name:'edit-category',params:{id:category.id}}">Edit</router-link> <a href=""  @click.prevent="deleteCategory(category.id)">Delete</a></td>
+    <tr v-for="product in getallproduct" :key="product.id">
+      <th scope="row">{{ product.id}}</th>
+      <td>{{ product.name }}</td>
+      <td>{{product.slug }}</td>
+      <td><router-link :to="{name:'edit-product',params:{id:product.id}}">Edit</router-link> <a href=""  @click.prevent="deleteproduct(product.id)">Delete</a></td>
     </tr>
     
   </tbody>
@@ -51,28 +51,28 @@
     export default {
       data() {
       return { 
-      categories:[],
+      products:[],
   
   }
     },
 
     methods:{
-      deleteCategory(id){
-axios.delete(`/api/categories/${id}`).then(response=>{
+      deleteProduct(id){
+// axios.delete(`/api/products/${id}`).then(response=>{
 
-  this.$toasted.show('Category Deleted Successfully');
-  this.$store.dispatch("fetchAllCategory");
-});
+//   this.$toasted.show('Product Deleted Successfully');
+//   this.$store.dispatch("fetchAllProduct");
+// });
       }
     },
         mounted() {
 
 
-            this.$store.dispatch("fetchAllCategory");
+            //this.$store.dispatch("fetchAllProduct");
         },
         computed:{
-          getallCategory(){
-            return this.$store.getters.AllCategory;
+          getallProduct(){
+            //return this.$store.getters.AllProduct;
            }
         }
     }
