@@ -11,7 +11,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-6">
-                <form @submit.prevent="submit">
+                <form @submit.prevent="submit" enctype="multipart/form-data">
                   <div class="form-group">
                     <label for="">Product Title</label>
                     <input
@@ -47,7 +47,12 @@
                       type="file"
                       name="productImage"
                       placeholder="productImage"
+                      @change="readFile($event)"
+
+                     
                     />
+
+                    <img :src="form.productImage" alt="" width="80" height="80">
                     <div
                       v-if="form.errors.has('productImage')"
                       v-html="form.errors.get('productImage')"
@@ -68,8 +73,6 @@
                       v-html="form.errors.get('productDescription')"
                     />
                   </div>
-
-             
 
                   <div class="form-group">
                     <button type="submit" class="btn btn-success mt-1">
@@ -96,16 +99,28 @@ export default {
         productPrice: "",
         productDescription: "",
         productImage: "",
+       
       }),
     };
   },
 
   methods: {
     submit() {
-       this.form.post('/api/products').then(response=>{
-        this.$toasted.show('product created');
-        });
+      this.form.post("/api/products").then((response) => {
+        this.$toasted.show("product created");
+      });
     },
+
+    readFile(event) {
+      let file = event.target.files[0];
+      let reader = new FileReader();
+                     reader.onload = event => {
+                         this.form.productImage = event.target.result
+                         console.log(event.target.result)
+                     };
+                     reader.readAsDataURL(file);
+    },
+    
   },
 };
 </script>

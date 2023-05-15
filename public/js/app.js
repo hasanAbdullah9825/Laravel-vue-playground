@@ -5737,6 +5737,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5753,9 +5756,19 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     submit: function submit() {
       var _this = this;
-      this.form.post('/api/products').then(function (response) {
-        _this.$toasted.show('product created');
+      this.form.post("/api/products").then(function (response) {
+        _this.$toasted.show("product created");
       });
+    },
+    readFile: function readFile(event) {
+      var _this2 = this;
+      var file = event.target.files[0];
+      var reader = new FileReader();
+      reader.onload = function (event) {
+        _this2.form.productImage = event.target.result;
+        console.log(event.target.result);
+      };
+      reader.readAsDataURL(file);
     }
   }
 });
@@ -29857,6 +29870,7 @@ var render = function () {
                 _c(
                   "form",
                   {
+                    attrs: { enctype: "multipart/form-data" },
                     on: {
                       submit: function ($event) {
                         $event.preventDefault()
@@ -29968,6 +29982,20 @@ var render = function () {
                           type: "file",
                           name: "productImage",
                           placeholder: "productImage",
+                        },
+                        on: {
+                          change: function ($event) {
+                            return _vm.readFile($event)
+                          },
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("img", {
+                        attrs: {
+                          src: _vm.form.productImage,
+                          alt: "",
+                          width: "80",
+                          height: "80",
                         },
                       }),
                       _vm._v(" "),
