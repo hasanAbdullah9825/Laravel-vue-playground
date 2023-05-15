@@ -32,7 +32,7 @@
       <th scope="row">{{ category.id}}</th>
       <td>{{ category.name }}</td>
       <td>{{category.slug }}</td>
-      <td><router-link :to="{name:'edit-category',params:{id:category.id}}">Edit</router-link> <a href="">Delete</a></td>
+      <td><router-link :to="{name:'edit-category',params:{id:category.id}}">Edit</router-link> <a href=""  @click.prevent="deleteCategory(category.id)">Delete</a></td>
     </tr>
     
   </tbody>
@@ -57,7 +57,13 @@
     },
 
     methods:{
+      deleteCategory(id){
+axios.delete(`/api/categories/${id}`).then(response=>{
 
+  this.$toasted.show('Category Deleted Successfully');
+  this.$store.dispatch("fetchAllCategory");
+});
+      }
     },
         mounted() {
 

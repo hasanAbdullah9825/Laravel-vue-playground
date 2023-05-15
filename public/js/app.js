@@ -5605,7 +5605,15 @@ __webpack_require__.r(__webpack_exports__);
       categories: []
     };
   },
-  methods: {},
+  methods: {
+    deleteCategory: function deleteCategory(id) {
+      var _this = this;
+      axios["delete"]("/api/categories/".concat(id)).then(function (response) {
+        _this.$toasted.show('Category Deleted Successfully');
+        _this.$store.dispatch("fetchAllCategory");
+      });
+    }
+  },
   mounted: function mounted() {
     this.$store.dispatch("fetchAllCategory");
   },
@@ -29320,7 +29328,19 @@ var render = function () {
                             [_vm._v("Edit")]
                           ),
                           _vm._v(" "),
-                          _c("a", { attrs: { href: "" } }, [_vm._v("Delete")]),
+                          _c(
+                            "a",
+                            {
+                              attrs: { href: "" },
+                              on: {
+                                click: function ($event) {
+                                  $event.preventDefault()
+                                  return _vm.deleteCategory(category.id)
+                                },
+                              },
+                            },
+                            [_vm._v("Delete")]
+                          ),
                         ],
                         1
                       ),
