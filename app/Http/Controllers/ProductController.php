@@ -16,7 +16,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::latest()->get();
+        return response()->json($products,200);
     }
 
     /**
@@ -58,7 +59,7 @@ class ProductController extends Controller
         $img->save($upload_path . $name);
 
         $savedImageWithPath="uploadimage/".$name;
-       //dd($savedImageWithPath);
+     
 
         Product::create([
 

@@ -22,17 +22,18 @@
   <thead>
     <tr>
       <th scope="col">Id</th>
-      <th scope="col">Name</th>
-      <th scope="col">Slug</th>
-      <th scope="col">Action</th>
+      <th scope="col">Image</th>
+      <th scope="col">Title</th>
+      <th scope="col">slug</th>
     </tr>
   </thead>
   <tbody>
-    <tr v-for="product in getallproduct" :key="product.id">
+    <tr v-for="product in getallProduct" :key="product.id">
       <th scope="row">{{ product.id}}</th>
-      <td>{{ product.name }}</td>
-      <td>{{product.slug }}</td>
-      <td><router-link :to="{name:'edit-product',params:{id:product.id}}">Edit</router-link> <a href=""  @click.prevent="deleteproduct(product.id)">Delete</a></td>
+      <td><img :src="product.image" width="80" height="80" alt=""></td>
+      <td>{{product.title }}</td>
+      <td>{{ product.slug}}</td>
+      <!-- <td><router-link :to="{name:'edit-product',params:{id:product.id}}">Edit</router-link> <a href=""  @click.prevent="deleteproduct(product.id)">Delete</a></td> -->
     </tr>
     
   </tbody>
@@ -68,12 +69,15 @@
         mounted() {
 
 
-            //this.$store.dispatch("fetchAllProduct");
+            this.$store.dispatch("fetchAllProduct");
         },
         computed:{
           getallProduct(){
-            //return this.$store.getters.AllProduct;
-           }
+            return this.$store.getters.AllProduct;
+           },
+          //  getImage(image){
+
+          //  }
         }
     }
 </script>

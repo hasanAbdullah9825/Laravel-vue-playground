@@ -5740,6 +5740,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5835,6 +5837,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -5852,13 +5855,13 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-
-    //this.$store.dispatch("fetchAllProduct");
+    this.$store.dispatch("fetchAllProduct");
   },
   computed: {
     getallProduct: function getallProduct() {
-      //return this.$store.getters.AllProduct;
-    }
+      return this.$store.getters.AllProduct;
+    } //  getImage(image){
+    //  }
   }
 });
 
@@ -6047,11 +6050,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   state: {
-    categories: []
+    categories: [],
+    products: []
   },
   getters: {
     AllCategory: function AllCategory(state) {
       return state.categories;
+    },
+    AllProduct: function AllProduct(state) {
+      return state.products;
     }
   },
   actions: {
@@ -6059,11 +6066,19 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/api/categories').then(function (response) {
         context.commit('setCategories', response.data);
       });
+    },
+    fetchAllProduct: function fetchAllProduct(context) {
+      axios.get('/api/products').then(function (response) {
+        context.commit('setProducts', response.data);
+      });
     }
   },
   mutations: {
     setCategories: function setCategories(state, data) {
       state.categories = data;
+    },
+    setProducts: function setProducts(state, data) {
+      state.products = data;
     }
   }
 });
@@ -30152,48 +30167,26 @@ var render = function () {
                 _vm._v(" "),
                 _c(
                   "tbody",
-                  _vm._l(_vm.getallproduct, function (product) {
+                  _vm._l(_vm.getallProduct, function (product) {
                     return _c("tr", { key: product.id }, [
                       _c("th", { attrs: { scope: "row" } }, [
                         _vm._v(_vm._s(product.id)),
                       ]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(product.name))]),
+                      _c("td", [
+                        _c("img", {
+                          attrs: {
+                            src: product.image,
+                            width: "80",
+                            height: "80",
+                            alt: "",
+                          },
+                        }),
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(product.title))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(product.slug))]),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        [
-                          _c(
-                            "router-link",
-                            {
-                              attrs: {
-                                to: {
-                                  name: "edit-product",
-                                  params: { id: product.id },
-                                },
-                              },
-                            },
-                            [_vm._v("Edit")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "a",
-                            {
-                              attrs: { href: "" },
-                              on: {
-                                click: function ($event) {
-                                  $event.preventDefault()
-                                  return _vm.deleteproduct(product.id)
-                                },
-                              },
-                            },
-                            [_vm._v("Delete")]
-                          ),
-                        ],
-                        1
-                      ),
                     ])
                   }),
                   0
@@ -30218,11 +30211,11 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Id")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Name")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Image")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Slug")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Title")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("slug")]),
       ]),
     ])
   },

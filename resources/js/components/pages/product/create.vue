@@ -7,10 +7,12 @@
             class="card-header d-flex justify-content-between align-items-center"
           >
             <h5>Create Product</h5>
+            
           </div>
           <div class="card-body">
             <div class="row">
               <div class="col-6">
+                
                 <form @submit.prevent="submit" enctype="multipart/form-data">
                   <div class="form-group">
                     <label for="">Product Title</label>
