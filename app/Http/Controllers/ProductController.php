@@ -54,16 +54,19 @@ class ProductController extends Controller
         $name = time() . "." . $ex;
         $img = Image::make($request->productImage)->resize(200, 200);
         $upload_path = public_path() . "/uploadimage/";
+       
         $img->save($upload_path . $name);
 
-
+        $savedImageWithPath="uploadimage/".$name;
+       //dd($savedImageWithPath);
 
         Product::create([
 
             'title' => $validatedData['productTitle'],
             'slug' => Str::slug($validatedData['productTitle']),
             'price' => $validatedData['productPrice'],
-            'description' => $validatedData['productDescription']
+            'description' => $validatedData['productDescription'],
+            'image'=>$savedImageWithPath,
 
 
 
