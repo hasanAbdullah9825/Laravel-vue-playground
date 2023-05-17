@@ -47,7 +47,7 @@
                       type="file"
                       name="productImage"
                       placeholder="productImage"
-                      @change="readFile($event)"
+                      @change="loadImageFromFile"
 
                      
                     />
@@ -99,6 +99,7 @@ export default {
         productPrice: "",
         productDescription: "",
         productImage: "",
+        
        
       }),
     };
@@ -111,15 +112,20 @@ export default {
       });
     },
 
-    readFile(event) {
-      let file = event.target.files[0];
-      let reader = new FileReader();
-                     reader.onload = event => {
-                         this.form.productImage = event.target.result
-                         console.log(event.target.result)
-                     };
-                     reader.readAsDataURL(file);
-    },
+    loadImageFromFile(ev) {
+      const file = ev.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = e => {
+        this.form.productImage = e.target.result
+        console.log(e.target.result);
+      };
+      reader.readAsDataURL(file);
+
+    }
+
+
+
     
   },
 };

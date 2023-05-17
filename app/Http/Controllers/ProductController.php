@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Image;
 
 class ProductController extends Controller
 {
@@ -39,14 +40,23 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'productTitle' => 'required|max:190',
+            'productTitle' => 'required|max:190|unique:products,title',
             'productPrice' => 'required|integer',
             'productDescription' => 'required',
-            // 'productImage'=>'required'
-
-
+            'productImage' => 'required',
 
         ]);
+
+        //Getting image extention
+        $strpos = strpos($request->productImage, ';');
+        $sub = substr($request->productImage, 0, $strpos);
+        $ex = explode('/', $sub)[1];
+        $name = time() . "." . $ex;
+        $img = Image::make($request->productImage)->resize(200, 200);
+        $upload_path = public_path() . "/uploadimage/";
+        $img->save($upload_path . $name);
+
+
 
         Product::create([
 
@@ -60,7 +70,7 @@ class ProductController extends Controller
 
         ]);
 
-        return response()->json(['success',200]);
+        return response()->json(['success', 200]);
     }
 
     /**

@@ -5760,13 +5760,13 @@ __webpack_require__.r(__webpack_exports__);
         _this.$toasted.show("product created");
       });
     },
-    readFile: function readFile(event) {
+    loadImageFromFile: function loadImageFromFile(ev) {
       var _this2 = this;
-      var file = event.target.files[0];
+      var file = ev.target.files[0];
       var reader = new FileReader();
-      reader.onload = function (event) {
-        _this2.form.productImage = event.target.result;
-        console.log(event.target.result);
+      reader.onload = function (e) {
+        _this2.form.productImage = e.target.result;
+        console.log(e.target.result);
       };
       reader.readAsDataURL(file);
     }
@@ -29983,11 +29983,7 @@ var render = function () {
                           name: "productImage",
                           placeholder: "productImage",
                         },
-                        on: {
-                          change: function ($event) {
-                            return _vm.readFile($event)
-                          },
-                        },
+                        on: { change: _vm.loadImageFromFile },
                       }),
                       _vm._v(" "),
                       _c("img", {
