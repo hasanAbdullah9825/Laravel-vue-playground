@@ -26,6 +26,8 @@
 
 
     <div id="app">
+
+    <!-- <img src="{{ asset('/storage/uploadimage/1684327126.png') }}" alt="Image"> -->
         <app-header></app-header>
 
         <router-view></router-view>

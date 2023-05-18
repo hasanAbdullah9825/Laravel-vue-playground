@@ -67,7 +67,8 @@ const  routes = new VueRouter({
         path: '/product/edit/:id',
         component: EditProduct,
         name: 'edit-product',
-      }
+      },
+      
     ]
   })
 

@@ -58,7 +58,7 @@ class ProductController extends Controller
        
         $img->save($upload_path . $name);
 
-        $savedImageWithPath="uploadimage/".$name;
+        $savedImageWithPath="/uploadimage/".$name;
      
 
         Product::create([
@@ -94,9 +94,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function edit(Product $product)
+    {  
+        return response()->json($product, 200);
     }
 
     /**
@@ -106,9 +106,47 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Product $product)
     {
-        //
+        
+        
+        $validatedData = $request->validate([
+            'title' => "required|max:190|unique:products,title, $product->id",
+            'price' => 'required|integer',
+            'description' => 'required',
+            
+
+        ]);
+
+
+        $product->update([
+
+            'title' => $validatedData['title'],
+            'slug' => Str::slug($validatedData['title']),
+            'price' => $validatedData['price'],
+            'description' => $validatedData['description'],
+            //'image'=>$savedImageWithPath,
+
+
+
+
+        ]);
+
+        if($request->image){
+            $strpos = strpos($request->image, ';');
+            $sub = substr($request->image, 0, $strpos);
+            $ex = explode('/', $sub)[1];
+            $name = time() . "." . $ex;
+            $img = Image::make($request->image)->resize(200, 200);
+            $upload_path = public_path() . "/uploadimage/";
+           
+            $img->save($upload_path . $name);
+    
+            $savedImageWithPath="/uploadimage/".$name;
+            $product->image= $savedImageWithPath;
+        }
+        $product->save();
+        return response()->json('success', 200);
     }
 
     /**

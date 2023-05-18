@@ -120,6 +120,7 @@ export default {
 
       reader.onload = e => {
         this.form.productImage = e.target.result
+        
         console.log(e.target.result);
       };
       reader.readAsDataURL(file);
