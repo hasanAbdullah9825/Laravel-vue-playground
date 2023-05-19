@@ -19,6 +19,13 @@
         <li class="nav-item">
           <router-link class="nav-link " :to="{ name: 'product' }" exact>Product List</router-link>
 </li>
+
+<li class="nav-item">
+  <router-link class="nav-link " :to="{ name: 'login' }" exact>Login</router-link>
+</li>
+<li class="nav-item">
+  <a class="nav-link " @click.prevent="logout" >Logout</a>
+</li>
       </ul>
     </div>
  
@@ -38,12 +45,23 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
 
+methods:{
+logout(){
+axios.post('/logout').then(response=>{
+  this.$toasted.show("Logout successful");
+});
+  }
+}
 }
 </script>
 
 <style>
 
+a {
+  cursor: default;
+}
 
 </style>

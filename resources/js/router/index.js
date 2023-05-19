@@ -9,6 +9,11 @@ import EditCategory from '../components/pages/category/edit.vue';
 import ProductList from '../components/pages/product/index.vue';
 import CreateProduct from '../components/pages/product/create.vue';
 import EditProduct from '../components/pages/product/edit.vue';
+import Dashboard from '../components/pages/dashboard.vue';
+
+
+
+import Login from '../components/pages/auth/login.vue'
 
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
@@ -68,6 +73,24 @@ const  routes = new VueRouter({
         component: EditProduct,
         name: 'edit-product',
       },
+      {
+        path: '/auth/login',
+        component: Login,
+        name: 'login',
+        
+    },
+  
+  //   {
+  //     path: '/auth/signup',
+  //     component: Signup,
+  //     name: 'signup',
+      
+  // }
+  {
+    path: '/da',
+    component: Dashboard,
+    name: 'dashboard'
+  }
       
     ]
   })
