@@ -5,7 +5,8 @@ export default
 
             categories: [],
             products: [],
-         
+            user: {}
+
         },
         getters: {
 
@@ -15,6 +16,9 @@ export default
             AllProduct(state) {
                 return state.products;
             },
+            User(state) {
+                return state.user;
+            }
         },
         actions: {
 
@@ -31,8 +35,13 @@ export default
                     context.commit('setProducts', response.data);
                 })
             },
-           
-            
+
+            fetchUser(context) {
+                axios.get('/api/user').then(response => {
+                    context.commit('setUser', response.data);
+                });
+            }
+
         },
         mutations: {
             setCategories(state, data) {
@@ -41,6 +50,9 @@ export default
             setProducts(state, data) {
                 state.products = data;
             },
-           
+            setUser(state, data) {
+                state.user = data;
+            }
+
         }
     }

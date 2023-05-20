@@ -58,21 +58,22 @@ loginForm: new Form({
       axios.get("/sanctum/csrf-cookie").then((response) => {
         
         this.loginForm.post("/login").then(response=>{
+          this.$store.dispatch("fetchUser");
             this.$router.push({name:'dashboard'});
             
         })
           
       })
     },
-    loadUser(){
-        axios.get('/api/user').then(response=>{
-            console.log(response.data);
-        });
-    }
+    // loadUser(){
+    //     axios.get('/api/user').then(response=>{
+    //         console.log(response.data);
+    //     });
+    // }
   },
 
   mounted(){
-   this.loadUser();
+   //this.loadUser();
   }
 };
 </script>

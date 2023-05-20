@@ -87,7 +87,7 @@ const  routes = new VueRouter({
       
   // }
   {
-    path: '/da',
+    path: '/dashboard',
     component: Dashboard,
     name: 'dashboard'
   }

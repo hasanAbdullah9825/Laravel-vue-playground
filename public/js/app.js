@@ -5481,20 +5481,20 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/sanctum/csrf-cookie").then(function (response) {
         _this.loginForm.post("/login").then(function (response) {
+          _this.$store.dispatch("fetchUser");
           _this.$router.push({
             name: 'dashboard'
           });
         });
       });
-    },
-    loadUser: function loadUser() {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/user').then(function (response) {
-        console.log(response.data);
-      });
-    }
+    } // loadUser(){
+    //     axios.get('/api/user').then(response=>{
+    //         console.log(response.data);
+    //     });
+    // }
   },
   mounted: function mounted() {
-    this.loadUser();
+    //this.loadUser();
   }
 });
 
@@ -6378,7 +6378,7 @@ var routes = new vue_router__WEBPACK_IMPORTED_MODULE_10__["default"]({
 
   // }
   {
-    path: '/da',
+    path: '/dashboard',
     component: _components_pages_dashboard_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
     name: 'dashboard'
   }]
@@ -6401,7 +6401,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   state: {
     categories: [],
-    products: []
+    products: [],
+    user: {}
   },
   getters: {
     AllCategory: function AllCategory(state) {
@@ -6409,6 +6410,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     AllProduct: function AllProduct(state) {
       return state.products;
+    },
+    User: function User(state) {
+      return state.user;
     }
   },
   actions: {
@@ -6421,6 +6425,11 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/api/products').then(function (response) {
         context.commit('setProducts', response.data);
       });
+    },
+    fetchUser: function fetchUser(context) {
+      axios.get('/api/user').then(function (response) {
+        context.commit('setUser', response.data);
+      });
     }
   },
   mutations: {
@@ -6429,6 +6438,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     setProducts: function setProducts(state, data) {
       state.products = data;
+    },
+    setUser: function setUser(state, data) {
+      state.user = data;
     }
   }
 });
