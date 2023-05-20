@@ -33,6 +33,7 @@ Vue.component('app-header', require('./components/Header.vue').default);
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+
 Vue.use(Vuex);
 const store = new Vuex.Store(
   storeData
@@ -41,8 +42,30 @@ Vue.use(Toasted,{
     position: 'top-right',
     duration: 3000 // set the duration of the notification
   });
-const app = new Vue({
+let auth =localStorage.getItem("auth");
+
+if(auth){
+
+  store.dispatch('authUser').then(response=>{
+    const app = new Vue({
+      el: '#app',
+      router: routes,
+      store
+  });
+  
+
+
+  });
+}
+
+else{
+  const app = new Vue({
     el: '#app',
     router: routes,
     store
 });
+
+}
+
+
+

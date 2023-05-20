@@ -1,3 +1,5 @@
+import vueRouter from '../router/index';
+
 export default
     {
 
@@ -41,11 +43,28 @@ export default
             },
 
             fetchUser(context) {
+              
                 axios.get('/api/user').then(response => {
                     context.commit('setUser', response.data);
                     context.commit('setAuthenticated', true);
                     localStorage.setItem("auth", true);
                 });
+            },
+
+            authUser(context){
+                
+                // return Promise.reject(new Error('Dispatch failed'));
+                axios.get('/api/user').then(response=>{
+                    context.commit('setUser', response.data);
+                    context.commit('setAuthenticated', true);
+                    localStorage.setItem("auth", true);
+                    if(vueRouter.currentRoute.name !== null && vueRouter.currentRoute.name !== 'dashboard'){
+                        vueRouter.push({ name: 'dashboard' })
+                    };
+                    
+
+                });
+                
             }
 
         },

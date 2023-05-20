@@ -19,8 +19,10 @@
         <li class="nav-item">
           <router-link class="nav-link " :to="{ name: 'product' }" exact>Product List</router-link>
 </li>
-
-<li class="nav-item">
+<li class="nav-item" v-if="auth">
+  <router-link class="nav-link " :to="{ name: 'dashboard' }" exact>Dashboard</router-link>
+</li>
+<li class="nav-item" v-if="!auth">
   <router-link class="nav-link " :to="{ name: 'login' }" exact>Login</router-link>
 </li>
 <li class="nav-item">
@@ -52,9 +54,15 @@ methods:{
 logout(){
 axios.post('/logout').then(response=>{
   this.$toasted.show("Logout successful");
+  localStorage.setItem("auth", false);
 });
   }
-}
+},
+computed: {
+        auth(){
+            return this.$store.getters.getAuthenticated;
+        }
+    }
 }
 </script>
 

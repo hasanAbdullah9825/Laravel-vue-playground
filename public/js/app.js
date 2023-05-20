@@ -5360,6 +5360,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5368,7 +5370,13 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/logout').then(function (response) {
         _this.$toasted.show("Logout successful");
+        localStorage.setItem("auth", false);
       });
+    }
+  },
+  computed: {
+    auth: function auth() {
+      return this.$store.getters.getAuthenticated;
     }
   }
 });
@@ -6230,6 +6238,7 @@ vue__WEBPACK_IMPORTED_MODULE_3__["default"].component('app-header', (__webpack_r
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+
 vue__WEBPACK_IMPORTED_MODULE_3__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_4__["default"]);
 var store = new vuex__WEBPACK_IMPORTED_MODULE_4__["default"].Store(_store_index__WEBPACK_IMPORTED_MODULE_2__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_3__["default"].use((vue_toasted__WEBPACK_IMPORTED_MODULE_1___default()), {
@@ -6237,11 +6246,22 @@ vue__WEBPACK_IMPORTED_MODULE_3__["default"].use((vue_toasted__WEBPACK_IMPORTED_M
   duration: 3000 // set the duration of the notification
 });
 
-var app = new vue__WEBPACK_IMPORTED_MODULE_3__["default"]({
-  el: '#app',
-  router: _router_index_js__WEBPACK_IMPORTED_MODULE_0__["default"],
-  store: store
-});
+var auth = localStorage.getItem("auth");
+if (auth) {
+  store.dispatch('authUser').then(function (response) {
+    var app = new vue__WEBPACK_IMPORTED_MODULE_3__["default"]({
+      el: '#app',
+      router: _router_index_js__WEBPACK_IMPORTED_MODULE_0__["default"],
+      store: store
+    });
+  });
+} else {
+  var app = new vue__WEBPACK_IMPORTED_MODULE_3__["default"]({
+    el: '#app',
+    router: _router_index_js__WEBPACK_IMPORTED_MODULE_0__["default"],
+    store: store
+  });
+}
 
 /***/ }),
 
@@ -6385,6 +6405,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _router_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../router/index */ "./resources/js/router/index.js");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   state: {
     categories: [],
@@ -6422,6 +6444,20 @@ __webpack_require__.r(__webpack_exports__);
         context.commit('setUser', response.data);
         context.commit('setAuthenticated', true);
         localStorage.setItem("auth", true);
+      });
+    },
+    authUser: function authUser(context) {
+      // return Promise.reject(new Error('Dispatch failed'));
+      axios.get('/api/user').then(function (response) {
+        context.commit('setUser', response.data);
+        context.commit('setAuthenticated', true);
+        localStorage.setItem("auth", true);
+        if (_router_index__WEBPACK_IMPORTED_MODULE_0__["default"].currentRoute.name !== null && _router_index__WEBPACK_IMPORTED_MODULE_0__["default"].currentRoute.name !== 'dashboard') {
+          _router_index__WEBPACK_IMPORTED_MODULE_0__["default"].push({
+            name: 'dashboard'
+          });
+        }
+        ;
       });
     }
   },
@@ -30348,21 +30384,41 @@ var render = function () {
                   1
                 ),
                 _vm._v(" "),
-                _c(
-                  "li",
-                  { staticClass: "nav-item" },
-                  [
-                    _c(
-                      "router-link",
-                      {
-                        staticClass: "nav-link",
-                        attrs: { to: { name: "login" }, exact: "" },
-                      },
-                      [_vm._v("Login")]
-                    ),
-                  ],
-                  1
-                ),
+                _vm.auth
+                  ? _c(
+                      "li",
+                      { staticClass: "nav-item" },
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "nav-link",
+                            attrs: { to: { name: "dashboard" }, exact: "" },
+                          },
+                          [_vm._v("Dashboard")]
+                        ),
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                !_vm.auth
+                  ? _c(
+                      "li",
+                      { staticClass: "nav-item" },
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "nav-link",
+                            attrs: { to: { name: "login" }, exact: "" },
+                          },
+                          [_vm._v("Login")]
+                        ),
+                      ],
+                      1
+                    )
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("li", { staticClass: "nav-item" }, [
                   _c(
