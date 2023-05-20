@@ -5,7 +5,8 @@ export default
 
             categories: [],
             products: [],
-            user: {}
+            user: {},
+            authenticated: false,
 
         },
         getters: {
@@ -18,6 +19,9 @@ export default
             },
             User(state) {
                 return state.user;
+            },
+            getAuthenticated(state) {
+                return state.authenticated;
             }
         },
         actions: {
@@ -39,6 +43,8 @@ export default
             fetchUser(context) {
                 axios.get('/api/user').then(response => {
                     context.commit('setUser', response.data);
+                    context.commit('setAuthenticated', true);
+                    localStorage.setItem("auth", true);
                 });
             }
 
@@ -52,6 +58,10 @@ export default
             },
             setUser(state, data) {
                 state.user = data;
+            }
+            ,
+            setAuthenticated(state, data) {
+                state.authenticated = data;
             }
 
         }

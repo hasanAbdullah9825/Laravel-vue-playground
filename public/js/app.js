@@ -5487,14 +5487,7 @@ __webpack_require__.r(__webpack_exports__);
           });
         });
       });
-    } // loadUser(){
-    //     axios.get('/api/user').then(response=>{
-    //         console.log(response.data);
-    //     });
-    // }
-  },
-  mounted: function mounted() {
-    //this.loadUser();
+    }
   }
 });
 
@@ -5780,23 +5773,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  methods: {
+    logout: function logout() {
+      var _this = this;
+      axios.post('/logout').then(function (response) {
+        _this.$toasted.show("Logout successful");
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -6402,7 +6389,8 @@ __webpack_require__.r(__webpack_exports__);
   state: {
     categories: [],
     products: [],
-    user: {}
+    user: {},
+    authenticated: false
   },
   getters: {
     AllCategory: function AllCategory(state) {
@@ -6413,6 +6401,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     User: function User(state) {
       return state.user;
+    },
+    getAuthenticated: function getAuthenticated(state) {
+      return state.authenticated;
     }
   },
   actions: {
@@ -6429,6 +6420,8 @@ __webpack_require__.r(__webpack_exports__);
     fetchUser: function fetchUser(context) {
       axios.get('/api/user').then(function (response) {
         context.commit('setUser', response.data);
+        context.commit('setAuthenticated', true);
+        localStorage.setItem("auth", true);
       });
     }
   },
@@ -6441,6 +6434,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     setUser: function setUser(state, data) {
       state.user = data;
+    },
+    setAuthenticated: function setAuthenticated(state, data) {
+      state.authenticated = data;
     }
   }
 });
@@ -30997,58 +30993,60 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container mt-4" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-3" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-body" }, [
-              _c("h5", { staticClass: "card-title" }, [_vm._v("Users")]),
-              _vm._v(" "),
-              _c("p", { staticClass: "card-text" }, [_vm._v("Total: 100")]),
-            ]),
+  return _c("div", { staticClass: "container mt-5" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-4" }, [
+        _c(
+          "div",
+          { staticClass: "list-group" },
+          [
+            _c(
+              "router-link",
+              {
+                staticClass: "list-group-item list-group-item-action",
+                attrs: { to: { name: "dashboard" } },
+              },
+              [_vm._v("Dashboard")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "list-group-item list-group-item-action",
+                attrs: { href: "#" },
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.logout.apply(null, arguments)
+                  },
+                },
+              },
+              [_vm._v("Logout")]
+            ),
+          ],
+          1
+        ),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-8" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _vm._v("\n                      Dashboard\n                  "),
           ]),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-3" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-body" }, [
-              _c("h5", { staticClass: "card-title" }, [_vm._v("Sales")]),
-              _vm._v(" "),
-              _c("p", { staticClass: "card-text" }, [_vm._v("Total: $10,000")]),
-            ]),
-          ]),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-3" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-body" }, [
-              _c("h5", { staticClass: "card-title" }, [_vm._v("Orders")]),
-              _vm._v(" "),
-              _c("p", { staticClass: "card-text" }, [_vm._v("Total: 50")]),
-            ]),
-          ]),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-3" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-body" }, [
-              _c("h5", { staticClass: "card-title" }, [_vm._v("Products")]),
-              _vm._v(" "),
-              _c("p", { staticClass: "card-text" }, [_vm._v("Total: 200")]),
-            ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _vm._v(
+              "\n                      Welcome, " +
+                _vm._s() +
+                "\n                  "
+            ),
           ]),
         ]),
       ]),
-    ])
-  },
-]
+    ]),
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 

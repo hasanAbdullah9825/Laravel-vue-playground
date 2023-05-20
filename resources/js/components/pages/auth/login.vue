@@ -65,16 +65,10 @@ loginForm: new Form({
           
       })
     },
-    // loadUser(){
-    //     axios.get('/api/user').then(response=>{
-    //         console.log(response.data);
-    //     });
-    // }
+    
   },
 
-  mounted(){
-   //this.loadUser();
-  }
+  
 };
 </script>
 
