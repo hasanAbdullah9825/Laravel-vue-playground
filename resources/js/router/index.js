@@ -13,7 +13,8 @@ import Dashboard from '../components/pages/dashboard.vue';
 
 
 
-import Login from '../components/pages/auth/login.vue'
+import Login from '../components/pages/auth/login.vue';
+import Signup from '../components/pages/auth/signup.vue';
 
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
@@ -73,23 +74,27 @@ const  routes = new VueRouter({
         component: EditProduct,
         name: 'edit-product',
       },
+      
       {
         path: '/auth/login',
         component: Login,
         name: 'login',
+        meta: { requiresVisitor: true }
         
     },
   
-  //   {
-  //     path: '/auth/signup',
-  //     component: Signup,
-  //     name: 'signup',
+    {
+      path: '/auth/signup',
+      component: Signup,
+      name: 'signup',
+      meta: { requiresVisitor: true }
       
-  // }
+  },
   {
     path: '/dashboard',
     component: Dashboard,
-    name: 'dashboard'
+    name: 'dashboard',
+    meta: { requiresAuth: true }
   }
       
     ]

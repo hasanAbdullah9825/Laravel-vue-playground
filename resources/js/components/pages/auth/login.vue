@@ -53,23 +53,21 @@ loginForm: new Form({
 
         }
     },
-  methods: {
-    login() {
-      axios.get("/sanctum/csrf-cookie").then((response) => {
-        
-        this.loginForm.post("/login").then(response=>{
-          this.$store.dispatch("fetchUser");
-            this.$router.push({name:'dashboard'});
+    methods:{
+      async login() {
+      
+       await this.loginForm.post("/login");
+       await this.$store.dispatch("fetchUser");
+       this.$router.push({name:'dashboard'});
             
-        })
-          
-      })
-    },
-    
-  },
 
+   },
+    }
   
-};
+  
+  }
+
+
 </script>
 
 <style>

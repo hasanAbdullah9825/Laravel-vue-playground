@@ -25,6 +25,9 @@
 <li class="nav-item" v-if="!auth">
   <router-link class="nav-link " :to="{ name: 'login' }" exact>Login</router-link>
 </li>
+<li class="nav-item" v-if="!auth">
+  <router-link class="nav-link " :to="{ name: 'signup' }" exact>Signup</router-link>
+</li>
 <li class="nav-item">
   <a class="nav-link " @click.prevent="logout" >Logout</a>
 </li>
@@ -54,7 +57,13 @@ methods:{
 logout(){
 axios.post('/logout').then(response=>{
   this.$toasted.show("Logout successful");
-  localStorage.setItem("auth", false);
+  localStorage.setItem("auth", 'false');
+
+  this.$store.commit('setUser', '');
+  this.$store.commit('setAuthenticated', false);
+  this.$router.push({name:'login'});
+  
+ 
 });
   }
 },

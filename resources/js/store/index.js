@@ -42,29 +42,31 @@ export default
                 })
             },
 
-            fetchUser(context) {
-              
+            async fetchUser(context) {
+                console.log("fetchuser action");
+                const response = await axios.get('/api/user');
+                context.commit('setUser', response.data);
+                context.commit('setAuthenticated', true);
+                localStorage.setItem("auth", 'true');
+
+            },
+
+            authUser(context) {
+
+                // return Promise.reject(new Error('Dispatch failed'));
                 axios.get('/api/user').then(response => {
                     context.commit('setUser', response.data);
                     context.commit('setAuthenticated', true);
-                    localStorage.setItem("auth", true);
-                });
-            },
+                    localStorage.setItem("auth", 'true');
 
-            authUser(context){
-                
-                // return Promise.reject(new Error('Dispatch failed'));
-                axios.get('/api/user').then(response=>{
-                    context.commit('setUser', response.data);
-                    context.commit('setAuthenticated', true);
-                    localStorage.setItem("auth", true);
-                    if(vueRouter.currentRoute.name !== null && vueRouter.currentRoute.name !== 'dashboard'){
+                    if (vueRouter.currentRoute.name !== null && vueRouter.currentRoute.name === 'login') {
+
                         vueRouter.push({ name: 'dashboard' })
                     };
-                    
+                    console.log("perfectly working from authUser action");
 
                 });
-                
+
             }
 
         },
@@ -80,6 +82,7 @@ export default
             }
             ,
             setAuthenticated(state, data) {
+
                 state.authenticated = data;
             }
 
