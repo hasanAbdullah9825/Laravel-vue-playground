@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use Image;
 
 class ProductController extends Controller
@@ -17,7 +18,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::latest()->get();
-        return response()->json($products,200);
+        return response()->json($products, 200);
     }
 
     /**
@@ -44,22 +45,23 @@ class ProductController extends Controller
             'productTitle' => 'required|max:190|unique:products,title',
             'productPrice' => 'required|integer',
             'productDescription' => 'required',
-            'productImage' => 'required',
+            'productImageObject' => 'required|image',
 
         ]);
 
-        //Getting image extention
-        $strpos = strpos($request->productImage, ';');
-        $sub = substr($request->productImage, 0, $strpos);
-        $ex = explode('/', $sub)[1];
-        $name = time() . "." . $ex;
-        $img = Image::make($request->productImage)->resize(200, 200);
-        $upload_path = public_path() . "/uploadimage/";
-       
-        $img->save($upload_path . $name);
 
-        $savedImageWithPath="/uploadimage/".$name;
-     
+        $productImageObject = $validatedData['productImageObject'];
+        $image = Image::make($productImageObject)->resize(200, 200)->stream();
+
+
+        $ext = $productImageObject->getClientOriginalExtension();
+        $imageName = uniqid() . "." . $ext;
+
+        Storage::disk('public')->put('product/' . $imageName, $image);
+        //Storage::disk('public')->putFileAs('product', $productImageObject, $imageName);
+
+        $imageLocation = "product/" . $imageName;
+
 
         Product::create([
 
@@ -67,7 +69,7 @@ class ProductController extends Controller
             'slug' => Str::slug($validatedData['productTitle']),
             'price' => $validatedData['productPrice'],
             'description' => $validatedData['productDescription'],
-            'image'=>$savedImageWithPath,
+            'image' => $imageLocation,
 
 
 
@@ -95,7 +97,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Product $product)
-    {  
+    {
         return response()->json($product, 200);
     }
 
@@ -108,44 +110,52 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        
-        
+
+
         $validatedData = $request->validate([
             'title' => "required|max:190|unique:products,title, $product->id",
             'price' => 'required|integer',
             'description' => 'required',
-            
-
-        ]);
-
-
-        $product->update([
-
-            'title' => $validatedData['title'],
-            'slug' => Str::slug($validatedData['title']),
-            'price' => $validatedData['price'],
-            'description' => $validatedData['description'],
-            //'image'=>$savedImageWithPath,
-
-
+            'UpdatedProductImageObject' => 'nullable|image',
 
 
         ]);
 
-        if($request->image){
-            $strpos = strpos($request->image, ';');
-            $sub = substr($request->image, 0, $strpos);
-            $ex = explode('/', $sub)[1];
-            $name = time() . "." . $ex;
-            $img = Image::make($request->image)->resize(200, 200);
-            $upload_path = public_path() . "/uploadimage/";
-           
-            $img->save($upload_path . $name);
-    
-            $savedImageWithPath="/uploadimage/".$name;
-            $product->image= $savedImageWithPath;
+
+        if ($request->UpdatedProductImageObject) {
+            $UpdatedProductImageObject = $validatedData['UpdatedProductImageObject'];
+            $image = Image::make($UpdatedProductImageObject)->resize(200, 200)->stream();
+
+            $ext = $UpdatedProductImageObject->getClientOriginalExtension();
+            $imageName = uniqid() . "." . $ext;
+
+            Storage::disk('public')->put('product/' . $imageName, $image);
+            $imageLocation = "product/" . $imageName;
+
+
+            $product->update([
+
+                'title' => $validatedData['title'],
+                'slug' => Str::slug($validatedData['title']),
+                'price' => $validatedData['price'],
+                'description' => $validatedData['description'],
+                'image' => $imageLocation,
+
+            ]);
+        } else {
+
+            $product->update([
+
+                'title' => $validatedData['title'],
+                'slug' => Str::slug($validatedData['title']),
+                'price' => $validatedData['price'],
+                'description' => $validatedData['description'],
+
+            ]);
         }
-        $product->save();
+
+
+
         return response()->json('success', 200);
     }
 

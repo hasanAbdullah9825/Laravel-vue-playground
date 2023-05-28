@@ -54,7 +54,7 @@
                      
                     />
 
-                    <img :src="form.productImage" alt="" width="80" height="80">
+                    <img :src="this.imagePreview" alt="" width="80" height="80">
                     <div
                       v-if="form.errors.has('productImage')"
                       v-html="form.errors.get('productImage')"
@@ -100,10 +100,11 @@ export default {
         productTitle: "",
         productPrice: "",
         productDescription: "",
-        productImage: "",
+        productImageObject: "",
         
        
       }),
+      imagePreview:''
     };
   },
 
@@ -119,7 +120,8 @@ export default {
       const reader = new FileReader();
 
       reader.onload = e => {
-        this.form.productImage = e.target.result
+        this.imagePreview = e.target.result
+        this.form.productImageObject = file
         
         console.log(e.target.result);
       };

@@ -50,7 +50,7 @@
                           <input
                             class="form-control-file"
                             type="file"
-                            name="image"
+                            
                             placeholder="image"
                             @change="loadImageFromFile"
       
@@ -59,9 +59,13 @@
                         </div>
                     </div>
                     <div class="col-4">
-                        <div style="width: 100%; max-height: 150px; overflow:hidden">
-                            <img :src="image" alt="" class="img-fluid">
+                        <div v-if="!imageEdit" style="width: 100%; max-height: 150px; overflow:hidden">
+                            <img :src="imageLocation(imagePreview)" alt="" class="img-fluid">
                         </div>
+
+                        <div v-if="imageEdit" style="width: 100%; max-height: 150px; overflow:hidden">
+                          <img :src="updateImagePreview" alt="" class="img-fluid">
+                      </div>
                     </div>
                 </div>
                 
@@ -104,13 +108,15 @@ export default {
       form: new Form({
                 title: '',
                 price: '',
-                image: '',
+                UpdatedProductImageObject: '',
                 description: '',
                 _method: 'put',
         
        
       }),
-      image:'',
+      imagePreview:'',
+      imageEdit:false,
+      updateImagePreview:''
       
     };
   },
@@ -125,7 +131,7 @@ export default {
                 this.form.title = product.title;
                 this.form.price = product.price;
                 this.form.description = product.description;
-                this.image = product.image;
+                this.imagePreview = product.image;
 
                 
 
@@ -141,8 +147,13 @@ export default {
       const reader = new FileReader();
 
       reader.onload = e => {
-        this.image = e.target.result;
-        this.form.image =e.target.result;
+        // this.image = e.target.result;
+        // this.form.image =e.target.result;
+
+        this.updateImagePreview = e.target.result;
+        this. imageEdit =true;
+
+        this.form.UpdatedProductImageObject = file;
         
         
       };
@@ -158,6 +169,10 @@ export default {
 
 
 
+    },
+
+    imageLocation(fileName){
+      return "/storage/" + fileName;
     }
    
 

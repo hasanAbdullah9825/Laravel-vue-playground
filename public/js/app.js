@@ -6065,8 +6065,9 @@ __webpack_require__.r(__webpack_exports__);
         productTitle: "",
         productPrice: "",
         productDescription: "",
-        productImage: ""
-      })
+        productImageObject: ""
+      }),
+      imagePreview: ''
     };
   },
   methods: {
@@ -6081,7 +6082,8 @@ __webpack_require__.r(__webpack_exports__);
       var file = ev.target.files[0];
       var reader = new FileReader();
       reader.onload = function (e) {
-        _this2.form.productImage = e.target.result;
+        _this2.imagePreview = e.target.result;
+        _this2.form.productImageObject = file;
         console.log(e.target.result);
       };
       reader.readAsDataURL(file);
@@ -6201,6 +6203,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -6209,11 +6215,13 @@ __webpack_require__.r(__webpack_exports__);
       form: new vform__WEBPACK_IMPORTED_MODULE_0__["default"]({
         title: '',
         price: '',
-        image: '',
+        UpdatedProductImageObject: '',
         description: '',
         _method: 'put'
       }),
-      image: ''
+      imagePreview: '',
+      imageEdit: false,
+      updateImagePreview: ''
     };
   },
   methods: {
@@ -6225,7 +6233,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.form.title = product.title;
         _this.form.price = product.price;
         _this.form.description = product.description;
-        _this.image = product.image;
+        _this.imagePreview = product.image;
       });
     },
     loadImageFromFile: function loadImageFromFile(ev) {
@@ -6233,8 +6241,12 @@ __webpack_require__.r(__webpack_exports__);
       var file = ev.target.files[0];
       var reader = new FileReader();
       reader.onload = function (e) {
-        _this2.image = e.target.result;
-        _this2.form.image = e.target.result;
+        // this.image = e.target.result;
+        // this.form.image =e.target.result;
+
+        _this2.updateImagePreview = e.target.result;
+        _this2.imageEdit = true;
+        _this2.form.UpdatedProductImageObject = file;
       };
       reader.readAsDataURL(file);
     },
@@ -6244,6 +6256,9 @@ __webpack_require__.r(__webpack_exports__);
       this.form.post("/api/products/".concat(id)).then(function (response) {
         _this3.$toasted.show('Product Updated Successfully');
       });
+    },
+    imageLocation: function imageLocation(fileName) {
+      return "/storage/" + fileName;
     }
   },
   mounted: function mounted() {
@@ -6319,6 +6334,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -6329,10 +6356,13 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     deleteProduct: function deleteProduct(id) {
       // axios.delete(`/api/products/${id}`).then(response=>{
-
       //   this.$toasted.show('Product Deleted Successfully');
       //   this.$store.dispatch("fetchAllProduct");
       // });
+    },
+    imageLocation: function imageLocation(fileName) {
+      console.log(fileName);
+      return "/storage/" + fileName;
     }
   },
   mounted: function mounted() {
@@ -31775,7 +31805,7 @@ var render = function () {
                       _vm._v(" "),
                       _c("img", {
                         attrs: {
-                          src: _vm.form.productImage,
+                          src: this.imagePreview,
                           alt: "",
                           width: "80",
                           height: "80",
@@ -32009,33 +32039,56 @@ var render = function () {
                           _vm._v(" "),
                           _c("input", {
                             staticClass: "form-control-file",
-                            attrs: {
-                              type: "file",
-                              name: "image",
-                              placeholder: "image",
-                            },
+                            attrs: { type: "file", placeholder: "image" },
                             on: { change: _vm.loadImageFromFile },
                           }),
                         ]),
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-4" }, [
-                        _c(
-                          "div",
-                          {
-                            staticStyle: {
-                              width: "100%",
-                              "max-height": "150px",
-                              overflow: "hidden",
-                            },
-                          },
-                          [
-                            _c("img", {
-                              staticClass: "img-fluid",
-                              attrs: { src: _vm.image, alt: "" },
-                            }),
-                          ]
-                        ),
+                        !_vm.imageEdit
+                          ? _c(
+                              "div",
+                              {
+                                staticStyle: {
+                                  width: "100%",
+                                  "max-height": "150px",
+                                  overflow: "hidden",
+                                },
+                              },
+                              [
+                                _c("img", {
+                                  staticClass: "img-fluid",
+                                  attrs: {
+                                    src: _vm.imageLocation(_vm.imagePreview),
+                                    alt: "",
+                                  },
+                                }),
+                              ]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.imageEdit
+                          ? _c(
+                              "div",
+                              {
+                                staticStyle: {
+                                  width: "100%",
+                                  "max-height": "150px",
+                                  overflow: "hidden",
+                                },
+                              },
+                              [
+                                _c("img", {
+                                  staticClass: "img-fluid",
+                                  attrs: {
+                                    src: _vm.updateImagePreview,
+                                    alt: "",
+                                  },
+                                }),
+                              ]
+                            )
+                          : _vm._e(),
                       ]),
                     ]),
                     _vm._v(" "),
@@ -32156,11 +32209,7 @@ var render = function () {
               "div",
               { staticClass: "card-header d-flex justify-content-between" },
               [
-                _c("div", [
-                  _vm._v(
-                    "\n                    Product List\n                    "
-                  ),
-                ]),
+                _c("div", [_vm._v("Product List")]),
                 _vm._v(" "),
                 _c(
                   "div",
@@ -32171,7 +32220,7 @@ var render = function () {
                         staticClass: "btn btn-primary",
                         attrs: { to: { name: "create-product" } },
                       },
-                      [_vm._v("  Create product ")]
+                      [_vm._v("\n              Create product\n            ")]
                     ),
                   ],
                   1
@@ -32194,7 +32243,7 @@ var render = function () {
                       _c("td", [
                         _c("img", {
                           attrs: {
-                            src: product.image,
+                            src: _vm.imageLocation(product.image),
                             width: "80",
                             height: "80",
                             alt: "",
@@ -32271,7 +32320,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("slug")]),
         _vm._v(" "),
-        _c("th", { staticStyle: { width: "170px" } }, [_vm._v(" Action ")]),
+        _c("th", { staticStyle: { width: "170px" } }, [_vm._v("Action")]),
       ]),
     ])
   },
