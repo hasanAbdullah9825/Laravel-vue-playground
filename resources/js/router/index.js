@@ -16,6 +16,8 @@ import Dashboard from '../components/pages/dashboard.vue';
 import Login from '../components/pages/auth/login.vue';
 import Signup from '../components/pages/auth/signup.vue';
 
+import EmailVerification from "../components/EmailVerification.vue";
+
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
@@ -95,7 +97,13 @@ const  routes = new VueRouter({
     component: Dashboard,
     name: 'dashboard',
     meta: { requiresAuth: true }
-  }
+  },
+
+{
+  path: '/test/*',
+  name: 'email-verification',
+  component: EmailVerification,
+}
       
     ]
   })

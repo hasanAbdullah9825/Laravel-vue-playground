@@ -18,8 +18,12 @@ use Illuminate\Support\Facades\Route;
 //     return view('app');
 // })->where('anypath', '.*');
 
-Route::get('/{anypath}', [App\Http\Controllers\WelcomeController::class, 'index'])->where('anypath', '.*');
-Auth::routes();
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Auth::routes(['verify'=>true]);
 
  Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
+ Route::get('/{anypath}', [App\Http\Controllers\WelcomeController::class, 'index'])->where('anypath', '.*');

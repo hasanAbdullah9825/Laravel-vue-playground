@@ -101,6 +101,7 @@ export default {
         productPrice: "",
         productDescription: "",
         productImageObject: "",
+       
         
        
       }),
